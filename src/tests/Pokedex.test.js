@@ -8,47 +8,48 @@ import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 import pokemonList from '../data';
 
-describe('Requisito 04: teste Pokedex.test.js', () => {
+describe('Requisito 05: teste Pokedéx.test.js', () => {
   beforeEach(() => renderWithRouter(<App />));
 
-  test('testa o funcionamento do botao next pkmn', () => {
-    const actualPKMN = screen.getByText('Pikachu');
-    const btnNextPKMN = screen.getByRole('button', { name: /próximo pokémon/i,
+  test('testa se o botao next funciona legal', () => {
+    const actualPokemon = screen.getByText('Pikachu');
+    const btnNextPokemon = screen.getByRole('button', { name: /próximo pokémon/i,
     });
     pokemonList.forEach((pokemon) => {
-      expect(actualPKMN === pokemon.name);
-      userEvent.click(btnNextPKMN);
+      expect(actualPokemon === pokemon.name);
+      userEvent.click(btnNextPokemon);
     });
-    expect(actualPKMN.innerHTML).toBe('Pikachu');
+    expect(actualPokemon.innerHTML).toBe('Pikachu');
   });
 
-  test('testa o head encountering pkmn', () => {
+  test('testa se os botoes do filtro funcionam legal', () => {
+
+    const fisicPokemon = pokemonList.filter((pokemon) => pokemon.type === 'Psychic');
+    const btnFisicType = screen.getByRole('button', { name: /psychic/i,
+    });
+    const btnNextPokemon = screen.getByRole('button', { name: /próximo pokémon/i,
+    });
+    userEvent.click(btnFisicType);
+    fisicPokemon.forEach((pokemon) => {
+      expect(pokemon.name).toBe(screen.getAllByTestId('pokemon-name')[0].innerHTML);
+      userEvent.click(btnNextPokemon);
+    });
+
+    const btnAll = screen.getAllByTestId('pokemon-type-button');
+    btnAll.forEach((button) => expect(button).toBeVisible());
+
+    const btnAllType = screen.getByRole('button', { name: /all/i,
+    });
+    const actualPokemon = screen.getByTestId('pokemon-name');
+    expect(btnAllType).toBeVisible();
+    userEvent.click(btnAllType);
+    expect(actualPokemon.innerHTML).toBe('Pikachu');
+    expect(btnAllType).toBeVisible();
+  });
+
+  test('testa se o head esta legal', () => {
     const textPokedex = screen.getByRole('heading', { name: /encountered pokémon/i,
     });
     expect(textPokedex).toBeVisible();
-  });
-
-  const btnAll = screen.getByRole('button', { name: /all/i,
-  });
-  const actualPKMN = screen.getByTestId('pokemon-name');
-  expect(btnAll).toBeVisible();
-  userEvent.click(btnAll);
-  expect(btnAll).toBeVisible();
-  expect(actualPKMN.innerHTML).toBe('Pikachu');
-});
-
-test('testa o funcionamentos dos botoes do filtro da pokedex', () => {
-  const btnOver = screen.getAllByTestId('pokemon-type-button');
-  btnOver.forEach((button) => expect(button).toBeVisible());
-
-  const fiscPKMN = pokemonList.filter((pokemon) => pokemon.type === 'Psychic');
-  const fiscBtn = screen.getByRole('button', { name: /psychic/i,
-  });
-  const btnNextPKMN = screen.getByRole('button', { name: /próximo pokémon/i,
-  });
-  userEvent.click(fiscBtn);
-  fiscPKMN.forEach((pokemon) => {
-    expect(pokemon.name).toBe(screen.getAllByTestId('pokemon-name')[0].innerHTML);
-    userEvent.click(btnNextPKMN);
   });
 });
