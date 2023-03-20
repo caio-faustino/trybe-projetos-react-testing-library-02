@@ -23,7 +23,6 @@ describe('Requisito 05: teste Pokedéx.test.js', () => {
   });
 
   test('testa se os botoes do filtro funcionam legal', () => {
-
     const fisicPokemon = pokemonList.filter((pokemon) => pokemon.type === 'Psychic');
     const btnFisicType = screen.getByRole('button', { name: /psychic/i,
     });
