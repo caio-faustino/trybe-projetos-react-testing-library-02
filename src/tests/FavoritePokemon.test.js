@@ -8,7 +8,7 @@ import FavoritePokemon from '../pages/FavoritePokemon';
 import renderWithRouter from '../renderWithRouter';
 import App from '../App';
 
-describe('Requisito 02: teste FavoritePokemon.test.js', () => {
+describe('Requisito 03: teste FavoritePokemon.test.js', () => {
   test('testa se os pkmns favoritados aparecem na tela', () => {
     const { history } = renderWithRouter(<App />);
     const detalhesCheck = screen.getByRole('link', { name: 'More details',
